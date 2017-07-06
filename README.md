@@ -2,9 +2,14 @@
 
 This cheatsheet provides all basic things that every Android developer should know but forgot sometimes. Do not hesitate to make pull request if you think something important is missing or if there is a mistake.
 
-## Activity lifecycle ###
+## Table of Contents
+  - [Activity](#activity)
+    - [Activity lifecycle](#activity_lifecycle)
+        - [Methods](#methods)
+## Activity ##
+### Activity lifecycle ###
 
-### Methods and when they are called ###
+#### Methods ####
     protected void onCreate(Bundle savedInstanceState);
 
 Called when the activity is first created. This is where you should do all of your normal static set up: 
@@ -39,7 +44,7 @@ The final call you receive before your activity is destroyed. This can happen ei
 
 The full diagram can be find [here](https://developer.android.com/images/activity_lifecycle.png)
 
-### Some common situations ###
+#### Some common situations ####
 
 * The user opens the app
 >    onCreate() -> onStart() ->  onResume()
