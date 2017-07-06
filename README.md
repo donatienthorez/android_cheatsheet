@@ -2,9 +2,6 @@
 
 This cheatsheet provides all basic things that every Android developer should know but forgot sometimes. Do not hesitate to make pull request if you think something important is missing or if there is a mistake.
 
-* [Activities](https://github.com/donatienthorez/android_cheatsheet/wiki/Activities)
-
-
 ## Activity lifecycle ###
 
 ### Methods and when they are called ###
