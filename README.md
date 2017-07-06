@@ -4,11 +4,15 @@ This cheatsheet provides all basic things that every Android developer should kn
 
 ## Table of Contents
   - [Activity](#activity)
-    - [Activity lifecycle](#activity_lifecycle)
+    - [Activity lifecycle](#activity-lifecycle)
         - [Methods](#methods)
-        - [Some common situations](#some_common_situations)
-    - [Define activity as launch activity](#define_activity_as_launch_activity)
-    
+        - [Some common situations](#some-common-situations)
+    - [Define activity as launch activity](#define-activity-as-launch-activity)
+    - [Start another activity](#start-another-activity)
+        - [Without any data](#without-any-data)
+        - [Without data](#without-data)
+        - [Start activity for result](#start-activity-for-result)
+
 ## Activity ##
 ### Activity lifecycle ###
 
