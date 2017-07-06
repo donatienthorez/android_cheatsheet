@@ -6,6 +6,9 @@ This cheatsheet provides all basic things that every Android developer should kn
   - [Activity](#activity)
     - [Activity lifecycle](#activity_lifecycle)
         - [Methods](#methods)
+        - [Some common situations](#some_common_situations)
+    - [Define activity as launch activity](#define_activity_as_launch_activity)
+    
 ## Activity ##
 ### Activity lifecycle ###
 
@@ -60,7 +63,7 @@ The full diagram can be find [here](https://developer.android.com/images/activit
 
 > The activity is destroyed and recreated, this can be changed by setting the configChanges parameter in the Manifest.
 
-## Define activity as launch activity
+### Define activity as launch activity
 ```xml
     <manifest ... >
 	<application ... >
@@ -73,3 +76,52 @@ The full diagram can be find [here](https://developer.android.com/images/activit
 	</application ... >
     </manifest >
 ```
+
+### Start another activity
+#### Without any data ####
+
+    Intent intent = new Intent(this, NextActivity.class);
+    startActivity(intent);
+
+#### With data  ####
+    
+    Intent intent = new Intent(this, NextActivity.class);
+    intent.putExtra("key","value");
+    startActivity(intent);
+    
+    // Get the data in NextActivity :
+    String message = intent.getStringExtra(FirstActivity.EXTRA_MESSAGE);
+    
+You also need to declare a constant that will be the key of the extra. You can pass boolean, String and even Object (that has to be either Serializable or Parcellable). However, in my opinion, it is better to not pass object and keep them in Services that you will inject in both of the activities.
+
+#### Start activity for result ####
+
+First activity
+
+    Intent i = new Intent(this, SecondActivity.class); 
+    startActivityForResult(i, FirstActivity.REQUEST_CODE);
+    
+    // When we come back from SecondActivity
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	if (requestCode == FirstActivity.REQUEST_CODE) { 
+		if(resultCode == FirstActivity.RESULT_OK) { 
+			String result=data.getStringExtra("result");
+		} 
+		if (resultCode == FirstActivity.RESULT_CANCELED) { 
+		} 
+	} 
+    }
+
+Second activity
+
+    // result ok
+    Intent returnIntent = new Intent(); 
+    returnIntent.putExtra("result", result); 
+    setResult(Activity.RESULT_OK, returnIntent); 
+    finish();
+    
+    // result canceled
+    Intent returnIntent = new Intent(); 
+    setResult(Activity.RESULT_CANCELED, returnIntent);
+    finish();
+
