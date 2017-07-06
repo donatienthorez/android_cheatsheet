@@ -7,6 +7,7 @@ This cheatsheet provides all useful things that every Android developer need and
     - [Activity lifecycle](#activity-lifecycle)
         - [Methods](#methods)
         - [Some common situations](#some-common-situations)
+    - [Instance state](#instance-state)
     - [Define activity as launch activity](#define-activity-as-launch-activity)
     - [Start another activity](#start-another-activity)
         - [Without any data](#without-any-data)
@@ -52,8 +53,6 @@ Note that this method may never be called, in low memory situations where the sy
 
 The final call you receive before your activity is destroyed. This can happen either because the activity is finishing (someone called finish() on it, or because the system is temporarily destroying this instance of the activity to save space. You can distinguish between these two scenarios with the isFinishing() method.
 
-The full diagram can be find [here](https://developer.android.com/images/activity_lifecycle.png)
-
 #### Some common situations ####
 
 * The user opens the app
@@ -69,6 +68,45 @@ The full diagram can be find [here](https://developer.android.com/images/activit
 > onPause -> onStop() -> onStop() -> onDestroy() -> onCreate() -> onStart() -> onResume()
 
 > The activity is destroyed and recreated, this can be changed by setting the configChanges parameter in the Manifest.
+
+
+The full diagram can be find [here](https://developer.android.com/images/activity_lifecycle.png)
+More information [here](https://stackoverflow.com/questions/8515936/android-activity-life-cycle-what-are-all-these-methods-for) and the default documentation [here](https://developer.android.com/guide/components/activities/activity-lifecycle.html)
+
+### Instance state
+
+Saving instance state
+
+    static final String STATE_SCORE = "playerScore";
+    static final String STATE_LEVEL = "playerLevel";
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putInt(STATE_SCORE, mCurrentScore);
+        savedInstanceState.putInt(STATE_LEVEL, mCurrentLevel);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+Restoring instance state
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState); // Always call the superclass first
+
+        // Check whether we're recreating a previously destroyed instance
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            mCurrentScore = savedInstanceState.getInt(STATE_SCORE);
+            mCurrentLevel = savedInstanceState.getInt(STATE_LEVEL);
+        } else {
+            // Probably initialize members with default values for a new instance
+        }
+        ...
+    }
+
+You can also choose to override onRestoreInstanceState(). In that case you don't need to check if savedInstanceState is null.
 
 ### Define activity as launch activity
 ```xml
@@ -139,9 +177,9 @@ Nice cheatsheets [here](http://labs.udacity.com/images/Layout-Cheat-Sheet.pdf) a
 
 ### Create a custom view ###
 
-1 - Extends the view that you want to add features. It can be extending LinearLayout, a TextView, a simple View.
+1 - Extend the view that you want to add features. It can be extending LinearLayout, a TextView, a simple View.
 
-2 - Implements the constructor matching super with the context :
+2 - Implement the constructor matching super with the context :
 
     // without any custom attributes
     public MyView(Context context) {
@@ -160,7 +198,7 @@ If you want to add attributes
 
 There are several format available
 
-3 - Implements the function with attrs and get attributes to do what you want
+3 - Implement the function with attrs and get attributes to do what you want
 
     // with default attributes
     public MyView(Context context, @Nullable AttributeSet attrs) {
@@ -178,4 +216,4 @@ There are several format available
            }
     }
 
-More informations [here](https://developer.android.com/training/custom-views/create-view.html#customattr)
+More information [here](https://developer.android.com/training/custom-views/create-view.html#customattr)
