@@ -1,6 +1,6 @@
 # Android cheatsheet #
 
-This cheatsheet provides all basic things that every Android developer should know but forgot sometimes. Do not hesitate to make pull request if you think something important is missing or if there is a mistake.
+This cheatsheet provides all useful things that every Android developer need and forget sometimes. Do not hesitate to make pull request if you think something important is missing or if there is a mistake.
 
 ## Table of Contents
   - [Activity](#activity)
@@ -12,6 +12,9 @@ This cheatsheet provides all basic things that every Android developer should kn
         - [Without any data](#without-any-data)
         - [Without data](#without-data)
         - [Start activity for result](#start-activity-for-result)
+  - [Layout and views](#layout-and-views)
+    - [The different types of layout and views](#the-different-types-of-layout-and-views)
+    - [Create a custom view](#create-a-custom-view)
 
 ## Activity ##
 ### Activity lifecycle ###
@@ -129,3 +132,49 @@ Second activity
     setResult(Activity.RESULT_CANCELED, returnIntent);
     finish();
 
+## Layout and views ##
+### The different types of layout and views ###
+
+Nice cheatsheets [here](http://labs.udacity.com/images/Layout-Cheat-Sheet.pdf) and [here](http://labs.udacity.com/images/Common-Android-Views-Cheat-Sheet.pdf).
+
+### Create a custom view ###
+
+1 - Extends the view that you want to add features. It can be extending LinearLayout, a TextView, a simple View.
+2 - Implements the constructor matching super with the context :
+
+    // without any custom attributes
+    public MyView(Context context) {
+        this(context);
+    }
+
+If you want to add attributes
+
+3 - Declare attributes in attrs.xml
+
+```xml
+    <declare-styleable name="MyView">
+       <attr name="attributeName" format="boolean" />
+    </declare-styleable>
+```
+
+There are several format available
+
+3 - Implements the function with attrs and get attributes to do what you want
+
+    // with default attributes
+    public MyView(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, com.android.internal.R.attr.textViewStyle);
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.MyView,
+                0, 0);
+
+           try {
+               mShowText = a.getBoolean(R.styleable.MyView_attributeName, false);
+           } finally {
+               a.recycle();
+           }
+    }
+
+More informations [here](https://developer.android.com/training/custom-views/create-view.html#customattr)
