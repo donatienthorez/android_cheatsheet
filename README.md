@@ -140,6 +140,7 @@ Nice cheatsheets [here](http://labs.udacity.com/images/Layout-Cheat-Sheet.pdf) a
 ### Create a custom view ###
 
 1 - Extends the view that you want to add features. It can be extending LinearLayout, a TextView, a simple View.
+
 2 - Implements the constructor matching super with the context :
 
     // without any custom attributes
